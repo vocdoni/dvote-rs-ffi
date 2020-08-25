@@ -44,7 +44,7 @@ void free_cstr(char *string);
 ```
 $ make
 
- Available actions in dvote-rs:
+ Available actions in dvote-rs-ffi:
 
   init       Install missing dependencies.
   
