@@ -2,7 +2,15 @@
 
 DVote Rust is a special Rust repository, targeted to build the libraries needed by DVote Flutter Native, to run expensive computations on mobile devices. 
 
-They can be used with the C Foreign Function Interface on any compatible platform and architecture. 
+They can be used with the C Foreign Function Interface on any of the compatible platforms and architectures. 
+- Android
+  - ARMv7
+  - ARM 64
+  - x86
+- iOS
+  - ARM 64
+  - x86_64
+
 
 The functions currently available are: 
 
