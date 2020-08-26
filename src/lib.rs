@@ -84,6 +84,22 @@ pub extern "C" fn compute_public_key(hex_private_key_ptr: *const c_char) -> *mut
 }
 
 #[no_mangle]
+pub extern "C" fn compute_public_key_uncompressed(
+    hex_private_key_ptr: *const c_char,
+) -> *mut c_char {
+    let hex_private_key = unsafe { CStr::from_ptr(hex_private_key_ptr) }
+        .to_str()
+        .expect("Invalid hex_private_key string");
+
+    let result = wallet::compute_public_key_uncompressed(hex_private_key)
+        .unwrap_or_else(|err| format!("ERROR: {}", err));
+
+    CString::new(result).unwrap().into_raw()
+
+    // NOTE: Caller must free() the resulting pointer
+}
+
+#[no_mangle]
 pub extern "C" fn compute_address(hex_private_key_ptr: *const c_char) -> *mut c_char {
     let hex_private_key = unsafe { CStr::from_ptr(hex_private_key_ptr) }
         .to_str()
