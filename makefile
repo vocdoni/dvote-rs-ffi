@@ -45,7 +45,7 @@ ios: target/universal/release/libdvote.a
 
 target/universal/release/libdvote.a: $(SOURCES) ndk-home
 	@if [ $$(uname) == "Darwin" ] ; then \
-		cargo lipo --release --targets=aarch64-apple-ios,x86_64-apple-ios,armv7-apple-ios ; \
+		cargo lipo --release --targets=aarch64-apple-ios,x86_64-apple-ios ; \
 		else echo "Skipping iOS compilation on $$(uname)" ; \
 	fi
 
