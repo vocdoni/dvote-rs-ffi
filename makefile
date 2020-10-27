@@ -46,8 +46,10 @@ ios: target/universal/release/libdvote.a
 
 target/universal/release/libdvote.a: $(SOURCES) ndk-home
 	@if [ $$(uname) == "Darwin" ] ; then \
-		cargo lipo --release ; \
-		else echo "Skipping iOS compilation on $$(uname)" ; \
+		if [ "$(release)" == "" ] ; then cargo lipo --release ; \
+		else cargo lipo --release --targets aarch64-apple-ios ; \
+		fi \
+	else echo "Skipping iOS compilation on $$(uname)" ; \
 	fi
 
 ## android: Compile the android targets (arm64, armv7 and i686)
