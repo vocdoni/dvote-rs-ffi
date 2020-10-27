@@ -1,6 +1,8 @@
 .DEFAULT_GOAL := help
 PROJECTNAME=$(shell basename "$(PWD)")
-SOURCES=$(sort $(wildcard ./src/*.rs ./src/**/*.rs))
+SOURCES=src/lib.rs
+# SOURCES=$(sort $(wildcard ./src/*.rs ./src/**/*.rs))
+TARGETS=encryption | ffi | hashing | signing | wallet | zk-snarks
 
 OS_NAME=$(shell uname | tr '[:upper:]' '[:lower:]')
 PATH := $(ANDROID_NDK_HOME)/toolchains/llvm/prebuilt/$(OS_NAME)-x86_64/bin:$(PATH)
@@ -47,7 +49,7 @@ ios: target/universal/release/libdvote.a
 target/universal/release/libdvote.a: $(SOURCES) ndk-home
 	@if [ $$(uname) == "Darwin" ] ; then \
 		cargo lipo --release ; \
-		else echo "Skipping iOS compilation on $$(uname)" ; \
+	else echo "Skipping iOS compilation on $$(uname)" ; \
 	fi
 
 ## android: Compile the android targets (arm64, armv7 and i686)
@@ -79,6 +81,19 @@ ndk-home:
 		echo "Error: Please, set the ANDROID_NDK_HOME env variable to point to your NDK folder" ; \
 		exit 1 ; \
 	fi
+
+## :
+
+## src/lib.rs: Link src/lib.rs to a specific component to compile
+src/lib.rs: 
+	@if [ "$(target)" = "" -a ! -f "src/lib.rs" ] ; then echo "Please, specify the target to link $@ to" ; false ; fi
+	@case "$(target)" in \
+		$(TARGETS)) ;; \
+		*) echo Invalid target: $(target) ; false ;; \
+	esac
+	
+	rm -f $@
+	ln -s $(target).rs $@
 
 ## bindings: Generate the .h file for iOS
 bindings: target/bindings.h

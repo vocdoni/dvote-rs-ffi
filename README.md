@@ -46,6 +46,8 @@ void free_cstr(char *string);
 - Install XCode if you are targeting iOS from MacOS
 - Run `make init`
 - Run `make all`
+  - Invoking with `make all release=true` will only bundle `aarch64-apple-ios`
+  - If you also need `x86_64-apple-ios`, then run `make all` or `make all target=`
 
 ### Available actions
 
