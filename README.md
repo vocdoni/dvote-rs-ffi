@@ -7,10 +7,12 @@ They can be used with the C Foreign Function Interface on any of the compatible 
   - ARMv7
   - ARM 64
   - x86
+  - x86_64
 - iOS
   - ARM 64
   - x86_64
 
+# Bindings
 
 The functions currently available are: 
 
@@ -49,34 +51,55 @@ void free_cstr(char *string);
   - Invoking with `make all release=true` will only bundle `aarch64-apple-ios`
   - If you also need `x86_64-apple-ios`, then run `make all` or `make all target=`
 
-### Available actions
+## Available actions
 
 ```
-$ make
-
+make
  Available actions in dvote-rs-ffi:
 
-  init       Install missing dependencies.
+  init         Install missing dependencies
   
-  all        Compile iOS, Android and bindings targets
-  ios        Compile the iOS universal library
-  android    Compile the android targets (arm64, armv7 and i686)
-  bindings   Generate the .h file for iOS
+  all          Compile all the components for iOS, Android and their C bindings
+  link         Link the project to a specific component (make link target=<component>)
   
-  clean
-  test
+  encryption   Compile iOS, Android and bindings for encryption
+  ffi          Compile iOS, Android and bindings for ffi
+  hashing      Compile iOS, Android and bindings for hashing
+  signing      Compile iOS, Android and bindings for signing
+  snarks       Compile iOS, Android and bindings for snarks
+  wallet       Compile iOS, Android and bindings for wallet
+  
+  ios          Compile the iOS targets (aarch64 and x86_64)
+  android      Compile the android targets (aarch64, armv7, i686 and x86_64)
+  bindings     Generate the .h binding files for iOS
+  
+  clean        Clean the rust artifacts and the bindings
 
 ```
 
-### Generated artifacts
+## Component split
+
+This code is meant to be imported from mobile apps. However, bundling the iOS library produces a 127Mb binary, including bitcode.
+
+Such file cannot be uploaded to the Flutter package repository, so instead this repo produces smaller lib files for each component that can be imported separately.
+
+- `encryption`
+- `hashing`
+- `signing`
+- `snarks`
+- `wallet`
+- `ffi` (used to free allocated C strings)
+
+## Generated artifacts
+
+For every component, 6 symbolic links are generated on the `artifacts` folder.
+
+iOS:
+- `artifacts/bindings-encryption.h`
+- `artifacts/libdvoteencryption.a`
 
 Android:
-- `target/aarch64-linux-android/release/libdvote.so`
-- `target/armv7-linux-androideabi/release/libdvote.so`
-- `target/i686-linux-android/release/libdvote.so`
-
-iOS
-- `target/universal/release/libdvote.a`
-
-C Bindings
-- `target/bindings.h`
+- `artifacts/libdvoteencryption-aarch64.so`
+- `artifacts/libdvoteencryption-armv7.so`
+- `artifacts/libdvoteencryption-i686.so`
+- `artifacts/libdvoteencryption-x86_64.so`

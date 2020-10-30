@@ -1,0 +1,11 @@
+[package]
+name = "dvote-rs-ffi"
+version = "0.7.0"
+authors = ["Jør∂¡ <itsbrickpop@gmail.com>"]
+edition = "2018"
+
+[lib]
+name = "dvoteffi"
+crate-type = ["staticlib", "cdylib"]
+
+[dependencies]

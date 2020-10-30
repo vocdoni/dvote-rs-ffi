@@ -1,0 +1,13 @@
+[package]
+name = "dvote-rs-ffi"
+version = "0.7.0"
+authors = ["Jør∂¡ <itsbrickpop@gmail.com>"]
+edition = "2018"
+
+[lib]
+name = "dvoteencryption"
+crate-type = ["staticlib", "cdylib"]
+
+[dependencies]
+dvote-rs = { git = "https://github.com/vocdoni/dvote-rs", rev = "ea23da4" }
+base64 = "0.12.3" # used by symmetric encryption wrappers

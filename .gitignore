@@ -2,5 +2,7 @@
 **/*.rs.bk
 Cargo.lock
 
-# symbolic link (dynamic)
+# symbolic links (dynamic)
 src/lib.rs
+Cargo.toml
+artifacts
