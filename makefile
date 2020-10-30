@@ -59,32 +59,32 @@ link:
 ## encryption: Compile iOS, Android and bindings for encryption
 encryption:
 	make link target=encryption
-	make ios android
+	make ios android target=encryption
 	make bindings artifacts target=encryption
 ## ffi: Compile iOS, Android and bindings for ffi
 ffi:
 	make link target=ffi
-	make ios android
+	make ios android target=ffi
 	make bindings artifacts target=ffi
 ## hashing: Compile iOS, Android and bindings for hashing
 hashing:
 	make link target=hashing
-	make ios android
+	make ios android target=hashing
 	make bindings artifacts target=hashing
 ## signing: Compile iOS, Android and bindings for signing
 signing:
 	make link target=signing
-	make ios android
+	make ios android target=signing
 	make bindings artifacts target=signing
 ## snarks: Compile iOS, Android and bindings for snarks
 snarks:
 	make link target=snarks
-	make ios android
+	make ios android target=snarks
 	make bindings artifacts target=snarks
 ## wallet: Compile iOS, Android and bindings for wallet
 wallet:
 	make link target=wallet
-	make ios android
+	make ios android target=wallet
 	make bindings artifacts target=wallet
 
 
@@ -111,33 +111,33 @@ Cargo.toml:
 ## :
 
 ## ios: Compile the iOS targets (aarch64 and x86_64)
-ios:target/universal/release/libdvote.a
+ios: target/universal/release/libdvote$(target).a
 
-target/universal/release/libdvote.a: $(SOURCES) ndk-home
+target/universal/release/libdvote$(target).a: $(SOURCES) ndk-home
 	@if [ $$(uname) == "Darwin" ] ; then \
 		cargo lipo --release ; \
 	else echo "Skipping iOS compilation on $$(uname)" ; \
 	fi
 
 ## android: Compile the android targets (aarch64, armv7, i686 and x86_64)
-android:target/aarch64-linux-android/release/libdvote.so target/armv7-linux-androideabi/release/libdvote.so target/i686-linux-android/release/libdvote.so target/x86_64-linux-android/release/libdvote.so
+android: target/aarch64-linux-android/release/libdvote$(target).so target/armv7-linux-androideabi/release/libdvote$(target).so target/i686-linux-android/release/libdvote$(target).so target/x86_64-linux-android/release/libdvote$(target).so
 
-target/aarch64-linux-android/release/libdvote.so: $(SOURCES) ndk-home
+target/aarch64-linux-android/release/libdvote$(target).so: $(SOURCES) ndk-home
 	CC_aarch64_linux_android=$(ANDROID_AARCH64_LINKER) \
 	CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER=$(ANDROID_AARCH64_LINKER) \
 		cargo build --target aarch64-linux-android --release
 
-target/armv7-linux-androideabi/release/libdvote.so: $(SOURCES) ndk-home
+target/armv7-linux-androideabi/release/libdvote$(target).so: $(SOURCES) ndk-home
 	CC_armv7_linux_androideabi=$(ANDROID_ARMV7_LINKER) \
 	CARGO_TARGET_ARMV7_LINUX_ANDROIDEABI_LINKER=$(ANDROID_ARMV7_LINKER) \
 		cargo build --target armv7-linux-androideabi --release
 
-target/i686-linux-android/release/libdvote.so: $(SOURCES) ndk-home
+target/i686-linux-android/release/libdvote$(target).so: $(SOURCES) ndk-home
 	CC_i686_linux_android=$(ANDROID_I686_LINKER) \
 	CARGO_TARGET_I686_LINUX_ANDROID_LINKER=$(ANDROID_I686_LINKER) \
 		cargo  build --target i686-linux-android --release
 
-target/x86_64-linux-android/release/libdvote.so: $(SOURCES) ndk-home
+target/x86_64-linux-android/release/libdvote$(target).so: $(SOURCES) ndk-home
 	CC_x86_64_linux_android=$(ANDROID_X86_64_LINKER) \
 	CARGO_TARGET_X86_64_LINUX_ANDROID_LINKER=$(ANDROID_X86_64_LINKER) \
 		cargo build --target x86_64-linux-android --release
