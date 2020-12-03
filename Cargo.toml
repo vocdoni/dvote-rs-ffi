@@ -9,6 +9,6 @@ name = "dvote"
 crate-type = ["staticlib", "cdylib"]
 
 [dependencies]
-dvote-rs = { git = "https://gitlab.com/vocdoni/dvote-rs", rev = "1dff726" }
+dvote-rs = { git = "https://github.com/vocdoni/dvote-rs", rev = "293d8ae" }
 za-prover = { git = "https://github.com/adria0/za", rev = "e3634a3" }
 base64 = "0.12.3" # used by symmetric encryption wrappers
