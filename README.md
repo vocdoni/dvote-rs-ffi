@@ -1,12 +1,13 @@
 # DVote Rust FFI
 
-DVote Rust is a special Rust repository, targeted to build the libraries needed by DVote Flutter Native, to run expensive computations on mobile devices. 
+DVote Rust is a special repository on top of [dvote-rs](https://github.com/vocdoni/dvote-rs), targeted to build native libraries for DVote Flutter Crypto to run expensive computations on mobile devices. 
 
 They can be used with the C Foreign Function Interface on any of the compatible platforms and architectures. 
 - Android
   - ARMv7
   - ARM 64
   - x86
+  - x86_64
 - iOS
   - ARM 64
   - x86_64
@@ -32,8 +33,10 @@ bool is_valid(const char *hex_signature_ptr,
                         const char *message_ptr,
                         const char *hex_public_key_ptr);
 
-char *generate_zk_proof(const char *proving_key_path, const char *inputs);
+// ZK Snark generation
+char *generate_zk_proof(const char *proving_key_path, const char *json_inputs);
 
+// CString cleanup
 void free_cstr(char *string);
 ```
 
@@ -46,8 +49,8 @@ void free_cstr(char *string);
 - Install XCode if you are targeting iOS from MacOS
 - Run `make init`
 - Run `make all`
-  - Invoking with `make all release=true` will only bundle `aarch64-apple-ios`
-  - If you also need `x86_64-apple-ios`, then run `make all` or `make all target=`
+  - Invoking with `make all release=true` will only bundle `aarch64-apple-ios` (mobile binaries)
+  - If you also need `x86_64-apple-ios` (iOS Simulator on Intel hardware), then run `make all` or `make all release=`
 
 ### Available actions
 
@@ -65,7 +68,6 @@ $ make
   
   clean
   test
-
 ```
 
 ### Generated artifacts
@@ -74,6 +76,7 @@ Android:
 - `target/aarch64-linux-android/release/libdvote.so`
 - `target/armv7-linux-androideabi/release/libdvote.so`
 - `target/i686-linux-android/release/libdvote.so`
+- `target/x86_64-linux-android/release/libdvote.so`
 
 iOS
 - `target/universal/release/libdvote.a`
